@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonCore | Join the Nexus</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ink: "#060a10",
+                        panel: "#0b121a",
+                        line: "#1e2a36",
+                        lime: "#b8f53a",
+                        snow: "#ededf7",
+                        muted: "#7d8a99",
+                    },
+                    fontFamily: {
+                        display: ["Orbitron", "sans-serif"],
+                        mono: ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- defer = wait until the page is built, then run -->
+    <script src="script.js" defer></script>
+</head>
+<body class="min-h-screen bg-ink font-mono text-snow">
+    <main class="mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-6 py-12 lg:grid-cols-2">
+
+        <!-- ================== LEFT ================== -->
+        <section>
+            <div class="mb-16 flex items-center gap-3">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                    <polygon points="15,2 27,8.5 27,21.5 15,28 3,21.5 3,8.5" stroke="#b8f53a" stroke-width="2" />
+                    <circle cx="15" cy="15" r="4" fill="#b8f53a" />
+                </svg>
+                <span class="font-display text-lg font-bold tracking-widest">NEONCORE</span>
+            </div>
+
+            <h1 class="font-display text-5xl font-black uppercase leading-tight sm:text-6xl">
+                <span class="text-lime">//</span> Join the Nexus
+            </h1>
+            <p class="mt-6 text-xs uppercase tracking-[0.25em] text-muted">
+                Initialize your Neoncore identity
+            </p>
+
+            <hr class="my-10 border-line" />
+
+            <div class="flex justify-between text-xs uppercase tracking-[0.2em] text-muted">
+                <span>Operator ID</span>
+                <span id="progress">0/5 Ready</span>
+            </div>
+            <p id="operatorId" class="mt-2 font-display text-3xl font-bold uppercase text-muted">Unassigned</p>
+
+            <ul class="mt-4 space-y-2 text-xs uppercase tracking-[0.2em] text-muted">
+                <li class="flex items-center gap-3">
+                    <span>Callsign</span>
+                    <span class="flex-1 border-b border-dotted border-line"></span>
+                    <span data-status="callsign">Pending</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span>Email</span>
+                    <span class="flex-1 border-b border-dotted border-line"></span>
+                    <span data-status="email">Pending</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span>Password</span>
+                    <span class="flex-1 border-b border-dotted border-line"></span>
+                    <span data-status="password">Pending</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span>Confirm</span>
+                    <span class="flex-1 border-b border-dotted border-line"></span>
+                    <span data-status="confirm">Pending</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span>Terms</span>
+                    <span class="flex-1 border-b border-dotted border-line"></span>
+                    <span data-status="terms">Pending</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- ================== RIGHT: form card ================== -->
+        <section class="relative border border-line bg-panel p-10">
+            <span class="absolute -left-px -top-px h-4 w-4 border-l-2 border-t-2 border-lime"></span>
+            <span class="absolute -bottom-px -right-px h-4 w-4 border-b-2 border-r-2 border-lime"></span>
+
+            <div class="mb-8 flex justify-between border-b border-line pb-4 text-[11px] uppercase tracking-[0.25em]">
+                <span>New Operator</span>
+                <span class="text-muted">All fields required</span>
+            </div>
+
+            <form id="signupForm" novalidate class="space-y-6">
+
+                <!-- Callsign -->
+                <div>
+                    <label for="callsign" class="mb-2 block text-[11px] uppercase tracking-[0.25em]">
+                        <span class="text-lime">&gt;</span> Callsign
+                    </label>
+                    <input id="callsign" name="callsign" type="text" placeholder="e.g. Vortex_07" autocomplete="off"
+                        class="w-full border border-line bg-ink px-4 py-3 text-sm placeholder:text-muted/60 focus:border-lime focus:outline-none" />
+                    <p id="callsignHint" class="mt-2 text-xs text-muted">3-20 characters: letters, numbers, _ or -</p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="mb-2 block text-[11px] uppercase tracking-[0.25em]">
+                        <span class="text-lime">&gt;</span> Email
+                    </label>
+                    <input id="email" name="email" type="text" placeholder="you@example.com"
+                        class="w-full border border-line bg-ink px-4 py-3 text-sm placeholder:text-muted/60 focus:border-lime focus:outline-none" />
+                    <p id="emailHint" class="mt-2 hidden text-xs"></p>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="mb-2 block text-[11px] uppercase tracking-[0.25em]">
+                        <span class="text-lime">&gt;</span> Password
+                    </label>
+                    <div class="relative">
+                        <input id="password" name="password" type="password"
+                            class="w-full border border-line bg-ink px-4 py-3 pr-12 text-sm focus:border-lime focus:outline-none" />
+                        <button type="button" data-toggle="password" aria-label="Show password"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-lime">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="mt-2 flex gap-1">
+                        <span class="strength-bar h-1 flex-1 bg-line"></span>
+                        <span class="strength-bar h-1 flex-1 bg-line"></span>
+                        <span class="strength-bar h-1 flex-1 bg-line"></span>
+                        <span class="strength-bar h-1 flex-1 bg-line"></span>
+                    </div>
+                    <p id="passwordHint" class="mt-2 text-xs text-muted">At least 8 characters</p>
+                </div>
+
+                <!-- Confirm password -->
+                <div>
+                    <label for="confirm" class="mb-2 block text-[11px] uppercase tracking-[0.25em]">
+                        <span class="text-lime">&gt;</span> Confirm Password
+                    </label>
+                    <div class="relative">
+                        <input id="confirm" name="confirm" type="password"
+                            class="w-full border border-line bg-ink px-4 py-3 pr-12 text-sm focus:border-lime focus:outline-none" />
+                        <button type="button" data-toggle="confirm" aria-label="Show password"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-lime">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p id="confirmHint" class="mt-2 hidden text-xs"></p>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
